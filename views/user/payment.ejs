@@ -1,0 +1,33 @@
+
+
+<h1 style="text-align: center; margin-top: 30px;">Payment</h1>
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    "key": "rzp_test_bpN3aN81Oaf8Mo", // Enter the Key ID generated from the Dashboard
+    "amount": "<%=data.order_amount * 100 %>", // Amount is in currency subunits. 
+    "currency": "INR",
+    "name": "Ultras",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "callback_url": "http://localhost:1000/payment_check/<%=data.order_id%>",
+    "prefill": {
+        "name": "<%=data.customer_name %>",
+        "email": "",
+        "contact":"<%=data.customer_mobile %>"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+
+    rzp1.open();
+    e.preventDefault();
+
+</script>

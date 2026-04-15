@@ -1,0 +1,84 @@
+<%- include("Navbar.ejs") %>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Product List</h5>
+    </div>
+
+    <div class="card-body table-responsive">
+
+        <table class="table table-bordered table-hover align-middle text-center">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>Action</th>
+                    <th>Sr.No</th>
+                    <th>Name</th>
+                    <th>Company</th>
+                    <th>Tag</th>
+                    <th>Color</th>
+                    <th>Price Range</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% product_list.map(function(val,i){ %>
+                <tr>
+                    
+                    <!-- ACTION BUTTONS -->
+                    <td>
+                        <a href="/admin/product_delete/<%=val.product_id%>">
+                            <button class="btn btn-danger btn-sm">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </a>
+
+                        <a href="/admin/product_edit/<%=val.product_id%>">
+                            <button class="btn btn-primary btn-sm">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </a>
+
+                        <a href="/admin/product_info/<%=val.product_id%>">
+                            <button class="btn btn-warning btn-sm text-white">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </a>
+                    </td>
+
+                    <td><%= i+1 %></td>
+
+                    <td class="fw-bold text-start">
+                        <%= val.product_name %>
+                    </td>
+
+                    <td><%= val.product_company %></td>
+
+                    <td>
+                        <span class="badge bg-info text-dark">
+                            <%= val.product_tag %>
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="badge bg-secondary">
+                            <%= val.product_color %>
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="text-success fw-bold">
+                            ₹<%= val.price %> - ₹<%= val.product_duplicate_price %>
+                        </span>
+                    </td>
+
+                </tr>
+                <% }) %>
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+<%- include("Footer.ejs") %>

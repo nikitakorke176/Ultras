@@ -1,0 +1,89 @@
+<%- include("Navbar.ejs") %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Product Info</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+         <div class="row">
+            <div class="col-md-12">
+                  <img style="width: 75%;" src="/upload/<%=product_info.product_image1 %>" alt="" id="main_img">
+            </div>
+            <div class="col-md-12" style="margin-top: 20px;" >
+                     <img onclick="main_img.src=this.src" src="/upload/<%=product_info.product_image1 %>" style="width: 80px; height: 90px;">
+                    <img onclick="main_img.src=this.src" src="/upload/<%=product_info.product_image2 %>" style="width: 80px; height: 90px;">
+                    <img onclick="main_img.src=this.src" src="/upload/<%=product_info.product_image3 %>" style="width: 80px; height: 90px;">
+                    <img onclick="main_img.src=this.src" src="/upload/<%=product_info.product_image4 %>" style="width: 80px; height: 90px;">
+            </div>
+            
+         </div>
+        </div>
+
+
+
+        <div class="col-md-6">
+           <button><%=product_info.product_company%> </button>
+           <h2>Name : <%=product_info.product_name%></h2>
+           <h2>Color : <%=product_info.product_color%></h2>
+           <h2 id="price"> <%=product_info.product_price%> /-</h2>
+           <h2>
+            
+            <% price.map(function(val,i){ %>
+
+               <button class="size-btn btn btn-outline-dark"
+onclick="setprice('<%=val.product_price %>','<%=val.product_pricing_id %>')">
+    <%=val.product_size %>
+</button>
+                
+          <%  }) %>
+           </h2>
+
+           
+
+
+
+           <button onclick="addToCart()">Add To Cart <i class="fa-solid fa-cart-arrow-down"></i></button>
+
+
+
+           <p>Detailes : <%= product_info.product_detailes%></p>
+
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var product_pricing_id = null;
+
+    function setprice(price,data){
+        product_pricing_id = data;
+        // console.log(data);
+        document.getElementById('price').innerHTML = '&#8377;'+price+'/';
+    };
+
+    // function addToCart(){
+    //     console.log("<%= product_info.product_id%>");
+    //     var url='/add_to_cart/<%= product_info.product_id%>/'+product_pricing_id;
+    //     location.href=url;
+    //     // console.log(url);
+    // };
+
+    function addToCart(){
+
+    if(product_pricing_id == null){
+        alert("Please select size");
+        return;
+    }
+
+    var url='/add_to_cart/<%= product_info.product_id%>/'+product_pricing_id;
+    location.href=url;
+}
+</script>
+
+<%- include("Footer.ejs") %>

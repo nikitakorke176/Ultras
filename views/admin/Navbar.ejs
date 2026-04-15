@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
+
+  <style>
+    :root {
+      --primary-color: #385e85;
+      --secondary-color: #2721a0;
+      --accent-color: #6e7275;
+      --light-color: #f8f9fa;
+      --dark-color: #212529;
+      --sidebar-width: 280px;
+      --sidebar-collapsed-width: 80px;
+      --transition-speed: 0.3s;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      overflow-x: hidden;
+    }
+    
+    /* Sidebar styling */
+    .sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      color: white;
+      background-color: #373573;
+      transition: all var(--transition-speed) ease;
+      z-index: 1050;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .sidebar-collapsed {
+      width: var(--sidebar-collapsed-width);
+    }
+    
+    .sidebar-collapsed .logo h2,
+    .sidebar-collapsed .menu-item-text {
+      display: none;
+    }
+    
+    .logo {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .logo i {
+      font-size: 28px;
+    }
+    
+    .logo h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-left: 10px;
+      margin-bottom: 0;
+      white-space: nowrap;
+    }
+    
+    .menu1 {
+      padding: 15px 0;
+    }
+    
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .menu-item:hover {
+      color: black;
+      background-color: rgba(255, 255, 255, 0.598);
+    }
+    
+    .menu-item.active {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      border-left: 3px solid white;
+    }
+    
+    .menu-item i {
+      font-size: 1.1rem;
+      width: 24px;
+      text-align: center;
+      margin-right: 15px;
+    }
+    
+    .menu-item-text {
+      white-space: nowrap;
+    }
+    
+    /* Main content area */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      transition: all var(--transition-speed) ease;
+      min-height: 100vh;
+    }
+    
+    .main-content-collapsed {
+      margin-left: var(--sidebar-collapsed-width);
+    }
+    
+    /* Top navbar */
+    .top-navbar {
+      height: 70px;
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    
+    .toggle-btn {
+      border: none;
+      background: none;
+      font-size: 1.2rem;
+      color: var(--dark-color);
+      cursor: pointer;
+    }
+    
+    .user-profile {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 10px;
+      border: 2px solid var(--accent-color);
+    }
+    
+    .user-name {
+      font-weight: 500;
+      margin-right: 10px;
+    }
+    
+    .dropdown-menu {
+      position: absolute;
+      right: 0;
+      top: 50px;
+      width: 250px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      display: none;
+    }
+    
+    .dropdown-menu.show {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 10px;
+    }
+    
+    .user-info img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+    
+    .user-details h5 {
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    
+    .user-details p {
+      margin-bottom: 0;
+      color: #6c757d;
+      font-size: 0.9rem;
+    }
+    
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      padding: 8px 0;
+      color: var(--dark-color);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .dropdown-item:hover {
+      color: var(--primary-color);
+    }
+    
+    .dropdown-item i {
+      width: 25px;
+      text-align: center;
+      margin-right: 10px;
+    }
+    
+    /* Content container */
+    .content-container {
+      padding: 25px;
+    }
+    
+    .card {
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 25px;
+      transition: transform 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .card-header {
+      background-color: white;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      font-weight: 600;
+      padding: 15px 20px;
+      border-radius: 10px 10px 0 0 !important;
+    }
+    
+    /* Settings modal */
+    .settings-icon {
+      font-size: 1.2rem;
+      color: var(--dark-color);
+      cursor: pointer;
+      margin-left: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .settings-icon:hover {
+      color: var(--primary-color);
+      transform: rotate(45deg);
+    }
+
+    /* Submenu */
+    .submenu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.9s ease, opacity 0.7s ease;
+      opacity: 0;
+      background-color: #4c4a86;
+    }
+
+    .submenu.show {
+      max-height: 500px;
+      opacity: 1;
+    }
+
+    .toggle-icon {
+      transition: transform 0.4s ease;
+    }
+
+    .toggle-icon.rotate {
+      transform: rotate(180deg);
+    }
+
+    /* ===================== */
+    /* MOBILE SIDEBAR FIX    */
+    /* ===================== */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.show {
+        transform: translateX(0);
+        box-shadow: 5px 0 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .main-content {
+        margin-left: 0 !important;
+      }
+
+      /* Dark overlay behind sidebar on mobile */
+      .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 1040;
+      }
+
+      .sidebar-overlay.show {
+        display: block;
+      }
+    }
+
+    /* Notification dot */
+    .notifaction {
+      height: 12px;
+      width: 12px;
+      background-color: red;
+      border-radius: 6px;
+      position: relative;
+      top: -10px;
+      left: 10px;
+      z-index: -1;
+    }
+
+    /* Modal styles */
+    .modal-content {
+      background-color: #fefefe;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      border: none;
+    }
+
+    .modal-header {
+      background-color: #4a90e2;
+      color: #fff;
+      border-bottom: none;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      padding: 20px;
+      justify-content: center;
+    }
+
+    .modal-title {
+      font-weight: 600;
+      font-size: 1.5rem;
+      margin: 0 auto;
+    }
+
+    .btn-close {
+      background-color: #ffffff;
+      border-radius: 50%;
+      padding: 0.5rem;
+      margin-right: -10px;
+    }
+
+    .modal-body {
+      padding: 20px;
+      max-height: 400px;
+      overflow-y: auto;
+      background-color: #fafafa;
+    }
+
+    .modal-body p {
+      margin-bottom: 5px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .modal-body b {
+      color: #333;
+    }
+
+    .modal-body .float-end {
+      float: right;
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    .modal-body::-webkit-scrollbar { width: 6px; }
+    .modal-body::-webkit-scrollbar-track { background: #f1f1f1; }
+    .modal-body::-webkit-scrollbar-thumb { background-color: #888; border-radius: 3px; }
+  </style>
+</head>
+
+<body>
+
+  <!-- Mobile Overlay (closes sidebar when clicked) -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar Navigation -->
+  <div class="sidebar" id="sidebar">
+    <div class="logo">
+      <i class="fas fa-graduation-cap me-2"></i>
+      <h2>College Website</h2>
+    </div>
+    
+    <div class="menu1">
+      <a href="/admin" class="menu-item">
+        <i class="fas fa-chart-line"></i>
+        <span class="menu-item-text">Dashboard</span>
+      </a>
+
+      
+      <div class="menu-item submenu-toggle">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span class="menu-item-text">Orders</span>
+        <i class="fas fa-chevron-down ms-auto toggle-icon"></i>
+
+        </div>
+     
+      <div class="submenu">
+
+        <a href="/admin/order_list/pending" class="menu-item">
+          <i class="fas fa-list"></i>
+          <span class="menu-item-text">Pending</span>
+        </a>
+
+        <a href="/admin/order_list/dispatched" class="menu-item">
+          <i class="fas fa-list"></i>
+          <span class="menu-item-text">Dispatched</span>
+        </a>
+
+        <a href="/admin/order_list/delivered" class="menu-item">
+          <i class="fas fa-list"></i>
+          <span class="menu-item-text">Delivered</span>
+        </a>
+
+        <a href="/admin/order_list/cancelled" class="menu-item">
+          <i class="fas fa-list"></i>
+          <span class="menu-item-text">Cancelled</span>
+        </a>
+
+        <a href="/admin/order_list/returned" class="menu-item">
+          <i class="fas fa-list"></i>
+          <span class="menu-item-text">Returned</span>
+        </a>
+
+        <a href="/admin/order_list/rejected" class="menu-item">
+          <i class="fas fa-list"></i>
+          <span class="menu-item-text">Rejected</span>
+        </a>
+
+      </div>
+
+      <a href="/admin/about_company" class="menu-item">
+        <i class="fas fa-chart-line"></i>
+        <span class="menu-item-text">About Company</span>
+      </a>
+
+      <a href="/admin/banner" class="menu-item">
+        <i class="fas fa-chart-line"></i>
+        <span class="menu-item-text">Add Banner</span>
+      </a>
+
+      <a href="/admin/category" class="menu-item">
+        <i class="fas fa-chart-line"></i>
+        <span class="menu-item-text">Category</span>
+      </a>
+      
+      <!-- Students Dropdown -->
+      <div class="menu-item submenu-toggle">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span class="menu-item-text">product</span>
+        <i class="fas fa-chevron-down ms-auto toggle-icon"></i>
+
+        </div>
+     
+      <div class="submenu">
+
+        <a href="/admin/add_product" class="menu-item">
+          <i class="fas fa-user-plus"></i>
+          <span class="menu-item-text">Add Product</span>
+        </a>
+
+        <a href="/admin/product_list" class="menu-item">
+          <i class="fas fa-list"></i>
+          <span class="menu-item-text">Product List</span>
+        </a>
+
+      </div>
+
+      
+
+     
+
+     
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="main-content" id="mainContent">
+    <!-- Top Navigation Bar -->
+    <nav class="top-navbar shadow-lg">
+      <button class="toggle-btn" id="toggleSidebar">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <div class="user-profile" id="userProfile">
+        <div class="notifaction"></div>
+
+        <i class="fa-solid fa-bell fs-5" data-bs-toggle="modal" data-bs-target="#exampleModal" id="bell"></i>
+        <i class="fas fa-cog settings-icon me-4 text-primary" data-bs-toggle="modal" data-bs-target="#settingsModal"></i>
+
+        <img src="/upload" alt="User" class="user-avatar">
+
+        <!-- User Dropdown Menu -->
+        <div class="dropdown-menu p-3" id="userDropdown">
+          <div class="user-info">
+            <img src="/upload" alt="User">
+            <div class="user-details">
+              <h5>Datta Padre</h5>
+              <p>dattapadre357@gmail.com</p>
+            </div>
+          </div>
+          
+          <a href="/admin/profile" class="dropdown-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+          </a>
+          
+          <a href="/admin/logout" class="dropdown-item">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+  

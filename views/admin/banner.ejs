@@ -1,0 +1,144 @@
+
+
+ <%- include("Navbar.ejs") %>
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4>Add Banner</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form action="/admin/save_banner" method="post" enctype="multipart/form-data">
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">Title</label>
+                        <input type="text" name="banner_title" class="form-control" required placeholder="Enter Title"> 
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">Details</label>
+                        <input type="text" name="banner_detailes" class="form-control" required placeholder="Enter Detailes">
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">Button Text</label>
+                        <input type="text" name="banner_text" class="form-control" placeholder="Enter Text">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Button URL</label>
+                        <input type="text" name="banner_url" class="form-control" placeholder="Enter URL">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Banner Image URL</label>
+                        <input type="file" name="banner_image" class="form-control" required placeholder="Select Image">
+                    </div>
+
+                    <div class="col-md-12 text-center mt-3">
+                        <button type="submit" class="btn btn-success px-4">
+                            Add Banner
+                        </button>
+                    </div>
+
+                </div>
+                </div>
+              </div>
+                
+            </form>
+             
+
+        
+
+<div class="container mt-4">
+
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <h2 class="text-primary">Banner List</h2>
+        </div>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover table-striped text-center">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Action</th>
+                            <th>Sr. No.</th>
+                            <th>Title</th>
+                            <th>Details</th>
+                            <th>Banner Text</th>
+                            <th>Banner URL</th>
+                            <th>Image</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% for(var i=0; i<Banner.length; i++){ %>
+
+                        <tr>
+
+                            <td>
+
+                                <a href="/admin/delete/<%= Banner[i].banner_id %>">
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </a>
+
+                                <a href="/admin/edit/<%= Banner[i].banner_id %>">
+                                    <button class="btn btn-primary btn-sm mt-1">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                </a>
+
+                            </td>
+
+                            <td><%= i+1 %></td>
+
+                            <td><%= Banner[i].banner_title %></td>
+
+                            <td><%= Banner[i].banner_detailes %></td>
+
+                            <td><%= Banner[i].banner_text %></td>
+
+                            <td>
+                                <a href="<%= Banner[i].banner_url %>" target="_blank" class="btn btn-success btn-sm">
+                                    Open
+                                </a>
+                            </td>
+
+                            <td>
+                                <img 
+                                    src="/upload/<%= Banner[i].banner_image %>" 
+                                    style="width:120px;height:80px;object-fit:cover;border-radius:5px;"
+                                >
+                            </td>
+
+                        </tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<%- include("Footer.ejs") %>

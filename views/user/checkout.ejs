@@ -1,0 +1,173 @@
+
+
+<%- include("Navbar.ejs") %>
+
+<style>
+    body{
+        background: #f4f6f9;
+    }
+
+    .checkout-title{
+        font-weight: 700;
+        margin-bottom: 25px;
+    }
+
+    .card{
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+
+    .form-control{
+        border-radius: 8px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        transition: 0.3s;
+    }
+
+    .form-control:focus{
+        border-color: #0d6efd;
+        box-shadow: 0 0 5px rgba(13,110,253,0.3);
+    }
+
+    label{
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .summary-box{
+        background: #ffffff;
+        border-radius: 12px;
+    }
+
+    .order-item{
+        padding: 8px 0;
+        border-bottom: 1px dashed #ddd;
+    }
+
+    .order-item:last-child{
+        border-bottom: none;
+    }
+
+    .total-box{
+        font-size: 18px;
+        font-weight: bold;
+        color: #0d6efd;
+    }
+
+    .btn-order{
+        background: linear-gradient(45deg, #0d6efd, #0a58ca);
+        border: none;
+        padding: 12px;
+        font-size: 18px;
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+
+    .btn-order:hover{
+        background: linear-gradient(45deg, #084298, #052c65);
+    }
+
+    .section-title{
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #333;
+    }
+</style>
+
+<form action="/order" method="post">
+<div class="container mt-5">
+    <h2 class="checkout-title text-center">🧾 Checkout</h2>
+
+    <div class="row g-4">
+
+     
+        <div class="col-md-8">
+            <div class="card p-4">
+                <h4 class="section-title">🚚 Shipping Details</h4>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label>Full Name</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Mobile Number</label>
+                        <input type="number" class="form-control" name="mobile" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>State</label>
+                        <input type="text" class="form-control" name="state" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>District</label>
+                        <input type="text" class="form-control" name="district" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>City</label>
+                        <input type="text" class="form-control" name="city" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Area</label>
+                        <input type="text" class="form-control" name="area">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Landmark</label>
+                        <input type="text" class="form-control" name="landmark">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label>Pincode</label>
+                        <input type="number" class="form-control" name="pincode" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+        <div class="col-md-4">
+            <div class="card p-4 summary-box">
+                <h4 class="text-center mb-3">🛒 Order Summary</h4>
+
+                <% var total = 0; %>
+                <% cart.map(function(item){ %>
+                    <% total += item.product_price * item.qty; %>
+
+                    <div class="d-flex justify-content-between order-item">
+                        <span><%= item.product_name %> x <%= item.qty %></span>
+                        <span>₹ <%= item.product_price * item.qty %></span>
+                    </div>
+                <% }) %>
+
+                <hr>
+
+                <div class="text-end total-box" style="text-align: center;">
+                    Total: ₹ <%= total %>
+                </div>
+
+                <div class="mt-3" style="text-align: center;">
+                    <label>Payment Type</label>
+                    <select name="payment_type" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="online">Online</option>
+                        <option value="cash">Cash on Delivery</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-order w-100 mt-4" style="margin-left: 30%;">
+                    Place Order 🚀
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+</form>
+
+<%- include("Footer.ejs") %>

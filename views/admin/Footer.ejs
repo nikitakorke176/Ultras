@@ -1,0 +1,212 @@
+
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
+  
+<script>
+  // document.querySelectorAll('.submenu-toggle').forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const submenu = toggle.nextElementSibling;
+      const icon = toggle.querySelector('.toggle-icon');
+
+      // Close all other submenus
+      document.querySelectorAll('.submenu').forEach(s => {
+        if (s !== submenu) s.classList.remove('show');
+      });
+      document.querySelectorAll('.toggle-icon').forEach(i => {
+        if (i !== icon) i.classList.remove('rotate');
+      });
+
+      // Toggle current
+      submenu.classList.toggle('show');
+      icon.classList.toggle('rotate');
+    });
+  // });
+</script>
+
+
+
+  <script>
+    // Initialize AOS animations
+    AOS.init();
+    
+    // Toggle sidebar
+    document.getElementById('toggleSidebar').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('sidebar-collapsed');
+      document.getElementById('mainContent').classList.toggle('main-content-collapsed');
+    });
+    
+    // Toggle user dropdown
+    document.getElementById('userProfile').addEventListener('click', function() {
+      document.getElementById('userDropdown').classList.toggle('show');
+    });
+    
+    // Close dropdown when clicking outside
+    window.addEventListener('click', function(event) {
+      if (!event.target.matches('#userProfile') && !event.target.closest('#userProfile')) {
+        var dropdown = document.getElementById('userDropdown');
+        if (dropdown.classList.contains('show')) {
+          dropdown.classList.remove('show');
+        }
+      }
+    });
+    
+    // Responsive sidebar for mobile
+    function handleResponsiveSidebar() {
+      if (window.innerWidth < 992) {
+        document.getElementById('sidebar').classList.remove('sidebar-collapsed');
+        document.getElementById('mainContent').classList.remove('main-content-collapsed');
+      }
+    }
+
+
+    
+    window.addEventListener('resize', handleResponsiveSidebar);
+    handleResponsiveSidebar();
+  </script>
+
+
+<script id="rendered-js" type="module">
+    let ckeditor;
+    ClassicEditor.create(document.querySelector(".editor"), {
+    
+    }).
+    then(editor => {
+    
+      ckeditor = editor;
+    }).
+    catch(error => {
+      console.error(error);
+    });
+     </script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</body>
+</html>
+    <!-- Content -->
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Theme Color</label>
+            <select class="form-select">
+              <option>Default</option>
+              <option>Dark Mode</option>
+              <option>Light Mode</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Notification Preferences</label>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+              <label class="form-check-label" for="emailNotifications">Email Notifications</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="pushNotifications" checked>
+              <label class="form-check-label" for="pushNotifications">Push Notifications</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notices Modal -->
+  <div class="modal fade rounded-3" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div style="background-color: #373573;" class="modal-header text-center">
+          <h5 class="modal-title" id="exampleModalLabel">Notices Bar</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    // Initialize AOS
+    AOS.init();
+
+    const sidebar      = document.getElementById('sidebar');
+    const mainContent  = document.getElementById('mainContent');
+    const overlay      = document.getElementById('sidebarOverlay');
+    const toggleBtn    = document.getElementById('toggleSidebar');
+
+    toggleBtn.addEventListener('click', function () {
+      if (window.innerWidth < 992) {
+        // Mobile: toggle show class + overlay
+        sidebar.classList.toggle('show');
+        overlay.classList.toggle('show');
+      } else {
+        // Desktop: collapse/expand
+        sidebar.classList.toggle('sidebar-collapsed');
+        mainContent.classList.toggle('main-content-collapsed');
+      }
+    });
+
+    // Close sidebar when overlay is clicked (mobile)
+    overlay.addEventListener('click', function () {
+      sidebar.classList.remove('show');
+      overlay.classList.remove('show');
+    });
+
+    // On resize: clean up classes
+    window.addEventListener('resize', function () {
+      if (window.innerWidth >= 992) {
+        sidebar.classList.remove('show');
+        overlay.classList.remove('show');
+        mainContent.style.marginLeft = '';
+      }
+    });
+
+    document.getElementById('userProfile').addEventListener('click', function () {
+      document.getElementById('userDropdown').classList.toggle('show');
+    });
+
+    window.addEventListener('click', function (event) {
+      if (!event.target.closest('#userProfile')) {
+        document.getElementById('userDropdown').classList.remove('show');
+      }
+    });
+
+    document.querySelectorAll('.submenu-toggle').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const submenu = toggle.nextElementSibling;
+        const icon    = toggle.querySelector('.toggle-icon');
+
+        document.querySelectorAll('.submenu').forEach(s => {
+          if (s !== submenu) s.classList.remove('show');
+        });
+        document.querySelectorAll('.toggle-icon').forEach(i => {
+          if (i !== icon) i.classList.remove('rotate');
+        });
+
+        submenu.classList.toggle('show');
+        icon.classList.toggle('rotate');
+      });
+    });
+  </script>
+
+</body>
+</html>

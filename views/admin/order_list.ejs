@@ -1,0 +1,96 @@
+
+
+
+<%- include("Navbar.ejs") %>
+
+<div class="container mt-4">
+
+    <!-- Header -->
+    <div class="row mb-3">
+        <div class="col-md-12 d-flex justify-content-between align-items-center">
+            <h2 class="fw-bold">Orders - <span class="text-primary"><%= status %></span></h2>
+        </div>
+    </div>
+
+    <!-- Card -->
+    <div class="card shadow rounded-4">
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle text-center">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Customer</th>
+                            <th>Mobile</th>
+                            <th>Address</th>
+                            <th>Amount</th>
+                            <th>Payment</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% if(list.length > 0){ %>
+
+                            <% list.forEach(function(item,i){ %>
+                                <tr>
+                                    <td><%= i+1 %></td>
+
+                                    <td class="fw-semibold">
+                                        <%= item.customer_name %>
+                                    </td>
+
+                                    <td>
+                                        <%= item.customer_mobile %>
+                                    </td>
+
+                                    <td>
+                                        <small class="text-muted">
+                                            <%= item.customer_state %>, 
+                                            <%= item.customer_district %>
+                                        </small>
+                                    </td>
+
+                                    <td class="fw-bold text-success">
+                                        ₹ <%= item.order_amount %>
+                                    </td>
+
+                                    <td>
+                                        <% if(item.payment_status == "pending"){ %>
+                                            <span class="badge bg-warning text-dark">Pending</span>
+                                        <% } else { %>
+                                            <span class="badge bg-success">Paid</span>
+                                        <% } %>
+                                    </td>
+
+                                    <td>
+                                        <a href="/admin/order_details/<%= item.order_id %>" 
+                                           class="btn btn-sm btn-primary">
+                                           View
+                                        </a>
+                                    </td>
+                                </tr>
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">
+                                    No Orders Found
+                                </td>
+                            </tr>
+
+                        <% } %>
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<%- include("Footer.ejs") %>

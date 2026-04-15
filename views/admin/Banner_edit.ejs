@@ -1,0 +1,60 @@
+<%- include("Navbar.ejs") %>
+
+
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4>Banner Update</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form action="/admin/update_banner" method="post" enctype="multipart/form-data">
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">Title</label>
+                        <input type="hidden" value="<%= info.banner_id%>" name="banner_id">
+                        <input type="text" name="banner_title" class="form-control" required placeholder="Enter Title" value="<%= info.banner_title %>"> 
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">Details</label>
+                        <input type="text" name="banner_detailes" class="form-control" required placeholder="Enter Detailes" value="<%= info.banner_detailes %>">
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">Button Text</label>
+                        <input type="text" name="banner_text" class="form-control" placeholder="Enter Text" value="<%= info.banner_text %>">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Button URL</label>
+                        <input type="text" name="banner_url" class="form-control" placeholder="Enter URL" value="<%= info.banner_url %>">
+                    </div>
+
+                    <div class="col-md-1">
+                        <img style="width: 100px; height: 100px;" src="/upload/<%= info.banner_image %>" alt="">
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">Banner Image URL</label>
+                        <input type="file" name="banner_image" class="form-control"  placeholder="Select Image" value="<%= info.banner_image %>">
+                    </div>
+
+                    <div class="col-md-12 text-center mt-3">
+                        <button type="submit" class="btn btn-success px-4">
+                            Update Banner
+                        </button>
+                    </div>
+
+                </div>
+                </div>
+              </div>
+                
+            </form>
+
+<%- include("Footer.ejs") %>

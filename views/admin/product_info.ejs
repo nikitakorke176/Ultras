@@ -1,0 +1,110 @@
+<%- include("Navbar.ejs") %>
+
+<div class="container mt-4">
+
+    <!-- HEADER -->
+    <div class="card shadow-sm mb-3">
+        <div class="card-body bg-primary text-white">
+            <h4 class="mb-0">Product Details</h4>
+        </div>
+    </div>
+
+    <!-- BASIC INFO -->
+    <div class="card shadow-sm mb-3">
+        <div class="card-header fw-bold">Basic Information</div>
+        <div class="card-body">
+            <div class="row text-center">
+
+                <div class="col-md-3">
+                    <label class="text-muted">Product Name</label>
+                    <h6 class="fw-bold"><%= product_info.product_name %></h6>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="text-muted">Color</label>
+                    <h6><span class="badge bg-secondary"><%= product_info.product_color %></span></h6>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="text-muted">Tag</label>
+                    <h6><span class="badge bg-info text-dark"><%= product_info.product_tag %></span></h6>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="text-muted">Company</label>
+                    <h6><%= product_info.product_company %></h6>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- PRICING -->
+    <div class="card shadow-sm mb-3">
+        <div class="card-header fw-bold">Pricing Details</div>
+        <div class="card-body">
+
+            <div class="row text-center">
+                <% price.map(function(val,i){ %>
+                <div class="col-md-2 mb-3">
+                    <div class="border rounded p-2 bg-light">
+
+                        <div class="fw-bold text-primary">
+                            <%= val.product_size %>
+                        </div>
+
+                        <div class="text-success fw-bold">
+                            ₹<%= val.product_price %>
+                        </div>
+
+                        <div class="text-muted text-decoration-line-through">
+                            ₹<%= val.product_duplicate_price %>
+                        </div>
+
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- IMAGES -->
+    <div class="card shadow-sm mb-3">
+        <div class="card-header fw-bold">Product Images</div>
+        <div class="card-body">
+            <div class="row text-center">
+
+                <div class="col-md-3">
+                    <img src="/upload/<%=product_info.product_image1%>" class="img-fluid rounded border" style="height:200px; object-fit:cover;">
+                </div>
+
+                <div class="col-md-3">
+                    <img src="/upload/<%=product_info.product_image2%>" class="img-fluid rounded border" style="height:200px; object-fit:cover;">
+                </div>
+
+                <div class="col-md-3">
+                    <img src="/upload/<%=product_info.product_image3%>" class="img-fluid rounded border" style="height:200px; object-fit:cover;">
+                </div>
+
+                <div class="col-md-3">
+                    <img src="/upload/<%=product_info.product_image4%>" class="img-fluid rounded border" style="height:200px; object-fit:cover;">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="card shadow-sm mb-3">
+        <div class="card-header fw-bold">Product Description</div>
+        <div class="card-body">
+            <p class="text-muted">
+                <%= product_info.product_detailes %>
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<%- include("Footer.ejs") %>

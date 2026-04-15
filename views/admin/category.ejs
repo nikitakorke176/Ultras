@@ -1,0 +1,61 @@
+<%- include("Navbar.ejs") %>
+
+<form action="/admin/save_category" method="post">
+<div class="container">
+    <div class="row bg-white p-2 rounded">
+        <div class="co-md-12">
+            <h1 class="fw-bold">Add Category</h1>
+        </div>
+    </div>
+
+    <div class="row bg-white p-2  pb-3mt-3 rounded">
+        <div class="col-md-10 fw-bold">
+            Enter Category
+            <input class="form-control" type="text" name="category_name" required id="">
+        </div>
+        <div class="col-md-2 text-center">
+            <button class="btn-btn-primary mt-4">Save Category</button>
+        </div>
+    </div>
+</div>
+
+</form>
+
+
+
+<div class="container">
+    <div class="row bg-white p-2 rounded mt-3">
+        <div class="co-md-12">
+            <h1 class="fw-bold">Category List</h1>
+        </div>
+    </div>
+
+    <div class="row bh-white p-2 rounded">
+        <div class="col-md-12 text-center">
+            <table class="table table-bordered">
+                <tr>
+                    <th>Action</th>
+                    <th>Sr.No</th>
+                    <th>Category Name</th>
+                </tr>
+              
+
+
+              <% category.map(function(item,i){ %>
+                <tr>
+                    <td class="text-center">
+                        <a href="/admin/category_delete/<%= item.category_id %>"><button class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button></a>
+                        <a href="/admin/category_edit/<%= item.category_id %>"><button class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i></button></a>
+                    </td>
+                    <td><%= i+1 %></td>
+                    <td><%= item.category_name %></td>
+                </tr>
+
+             <% }) %>
+              
+            </table>
+
+        </div>
+    </div>
+
+<%- include("Footer.ejs") %>

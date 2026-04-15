@@ -1,0 +1,158 @@
+
+
+
+<%- include("Navbar.ejs") %>
+
+<style>
+    body{
+        background-color: #f5f7fa;
+    }
+
+    .cart-title{
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .cart-table{
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .cart-table th{
+        background-color: #0d6efd;
+        color: white;
+        text-align: center;
+        padding: 12px;
+    }
+
+    .cart-table td{
+        text-align: center;
+        vertical-align: middle;
+        padding: 10px;
+    }
+
+    .cart-img{
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    .qty-btn{
+        border: none;
+        padding: 5px 10px;
+        margin: 0 5px;
+        background-color: #0d6efd;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .qty-btn:hover{
+        background-color: #084298;
+    }
+
+    .remove-btn{
+        background-color: red;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .remove-btn:hover{
+        background-color: darkred;
+    }
+
+    .cart-summary{
+        margin-top: 20px;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        text-align: right;
+    }
+
+    .checkout-btn{
+        background-color: green;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-size: 18px;
+    }
+
+    .checkout-btn:hover{
+        background-color: darkgreen;
+    }
+</style>
+
+<div class="container mt-4">
+    <h2 class="cart-title">🛒 Cart Page</h2>
+
+    <div class="cart-table">
+        <table style="width: 100%;">
+            <tr>
+                <th>Sr.No</th>
+                <th>Product</th>
+                <th>Image</th>
+                <th>Price</th>
+                <th>Size</th>
+                <th>Qty</th>
+                <th>Total</th>
+                <th>Action</th>
+            </tr>
+
+            <% var sum=0 %>
+            <% cart.map(function(item,i) { %>
+
+            <tr>
+                <td><%=i+1%></td>
+                <td><b><%=item.product_name%></b></td>
+                <td>
+                    <img src="/upload/<%=item.product_image1%>" class="cart-img">
+                </td>
+
+                <% sum += item.product_price*item.qty;  %>
+
+                <td>&#8377;<%=item.product_price%></td>
+                <td><%=item.product_size%></td>
+
+                <td>
+                    <button class="qty-btn" onclick="qtydecrease('<%=item.cart_id%>')">-</button>
+                    <b><%=item.qty%></b>
+                    <button class="qty-btn" onclick="qtyincrease('<%=item.cart_id%>')">+</button>
+                </td>
+
+                <td>&#8377;<%=item.product_price*item.qty%></td>
+
+                <td>
+                    <a href="/remove/<%= item.cart_id %>" class="remove-btn">Remove</a>
+                </td>
+            </tr>
+
+            <% }) %>
+        </table>
+    </div>
+
+    <div class="cart-summary">
+        <h3>Total: &#8377; <%= sum %></h3>
+        <a href="/checkout">
+            <button class="checkout-btn">Proceed To Checkout</button>
+        </a>
+    </div>
+</div>
+
+<script>
+    function qtyincrease(cart_id){
+        location.href= '/qtyincrease/'+cart_id
+    }
+
+    function qtydecrease(cart_id){
+        location.href= '/qtydecrease/'+cart_id
+    }
+</script>
+
+<%- include("Footer.ejs") %>
